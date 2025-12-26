@@ -255,10 +255,7 @@ export default defineConfig(
   {
     name: 'test/**/*.ts overrides',
     files: ['test/**/*.spec.ts', 'test/**/*.spec.cts', 'test/**/*.spec.d.ts'],
-    plugins: {
-      // @ts-expect-error: weird type error
-      vitest: eslintPluginVitest,
-    },
+    extends: [eslintPluginVitest.configs.recommended],
     rules: {
       '@typescript-eslint/no-deprecated': 'off',
 
@@ -271,10 +268,9 @@ export default defineConfig(
         },
       ],
 
-      ...eslintPluginVitest.configs.recommended.rules,
-
       'vitest/expect-expect': 'off',
       'vitest/no-alias-methods': 'error',
+      'vitest/no-conditional-expect': 'off', // we require conditional logic when iterating over faker instances or instances in diffent versions (for the docs)
       'vitest/prefer-each': 'error',
       'vitest/prefer-to-have-length': 'error',
       'vitest/valid-expect': ['error', { maxArgs: 2 }],
